@@ -1,0 +1,69 @@
+comandos y cosas importantes
+
+usen esto como base y ayuda :p
+
+-Series
+    ''var=pd.series(a)''
+    esto sirve con un array, lo que hace es dividir los datos en filas y mostrar la posicion de cada uno
+        a=["matate","pls","uwu"] 
+    #al imprimir esto, sale:
+        0    matate
+        1       pls
+        2       uwu
+
+-Labels
+    ''serie = pd.Series(a, index=["x", "y", "z"])'''
+    es lo mismo que antes, pero en lugar de mostrar la posicion, le damos un nombre personalizado :D
+        a=["matate","pls","uwu"] 
+    a#al imprimir esto, sale:
+        x    matate
+        y       pls
+        z       uwu
+
+-diccionario
+    ''calories = {"day1": 420, "day2": 380, "day3": 390}''
+    esta forma de organizar datos consiste de una key o palabra clave seguido de datos
+    empezamos haciendo un diccionario, como este, donde puedo imprimir el array en la posicion de la palabra
+        print(calories[day1])
+    en este caso, al imprimir el array calories en la posicion day1 me imprimira 420 que es a lo que puse que equivale :p 
+    ahora si, vamos a pandas
+    lo que haremos, es imprimir el diccionario usando Series, esto nos imprime la palabra clave, o la posicion y al lado su equivalente
+        ''serie = pd.Series(calories) ''
+    al imprimir, sale esto: 
+        day1    420
+        day2    380
+        day3    390
+
+-Data frames
+    el mas importante y el que voy a usar, para empezar, hago un diccionario con listas
+        data = {
+            "calories": [420, 380, 390],
+            "duration": [50, 40, 45]
+        }
+    hecho esto, lo escribo con el comando .dataframe, asi:
+        df = pd.DataFrame(data)
+    #df de data frame btw
+    al imprimir, sale esto:
+            calories  duration
+        0       420        50
+        1       380        40
+        2       390        45
+    es el tipo de lista de datos mas completa, pues para empezar, muestra la posicion, luego coloca en columnas los datos
+
+-Locate Low(localizar filas)
+    el data frame es simplemente una tabla con columnas ↕ y filas ⇿
+    podemos localizar una columna usando:
+        ''df.loc[x]'' 
+    usando esto con el dataframe anterior y buscando la columna 0, nos da:
+        calories    420
+        duration     50
+    es importante mencionar que esto nos deja: cada palabra clave seguido del dato que corresponde en esa ubicacion
+    #nota, tambien funciona si nombro los indexs (lavels) con otro valor
+
+-archivos csv
+    este es un formato de archivo que usa datos separados por comas, donde la primera fila, siempre va a ser las keys
+    las siguientes filas las separaremos por comas y eso estara formando nuestro cuadro, quedaria algo asi:
+        calories,duration
+        420,50
+        380,40
+        390,45
