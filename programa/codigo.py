@@ -36,5 +36,9 @@ top_juegos_caros = df.sort_values(by='precio', ascending=False).head(5)
 print("\nTop 5 juegos más caros:")
 print(top_juegos_caros[['titulo', 'precio']])
 
+print("\ncorrelacion entre las columnas numericas")
+print(df.select_dtypes(include='number').corr())
+
+
 
 
