@@ -1,3 +1,5 @@
+import pandas as pd
+
 # Crear el DataFrame
 df = pd.DataFrame(data)
 
