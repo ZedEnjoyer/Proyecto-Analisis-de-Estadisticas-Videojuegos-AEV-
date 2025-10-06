@@ -67,3 +67,105 @@ usen esto como base y ayuda :p
         420,50
         380,40
         390,45
+    para importar un archivo como pandas hay que crear una variable
+        csv=pd.read_csv('data.csv') #en comillas simples va el archivo a leer
+    para imprimir archivos completos es recomendable escribir:
+        print(csv.to_string()) #csv es el nombre de la variable que creamos anteriormente
+    de no usar eso, solo imprime parcialmente el archivo
+
+max_rows
+    se utiliza para saber la cantidad de filas que tiene el archivo
+        print(pd.options.display.max_rows) 
+    si se escribe
+        max_rows=20
+    pandas mostrara las primeras 10, las ultimas 10 y dira cuantas filas fueron omitidas
+    si se estalece un valor mayor al existente, simplemente se mostraran todas las filas
+
+head()
+    imprime las primeras filas del dataframe
+    si se escribe como parametro al imprimir, muestra la cantidad de filas indicadas
+        print(df.head())
+    si no se especifica una cantidad, se mostraran las primeras 5 filas, contando las keys
+
+tail()
+    imrpime las ultimas filas del dataframe
+    si se escribe como parametro al imprimir, muestra la cantidad de filas indicadas
+        print(df.tail()) 
+    si no se especifica una cantidad, se mostraran las ultimas 5 filas
+
+info()
+    si se usa:
+        print(df.info()) 
+    -dice cuantas filas y columnas tiene
+    -nombra cada columna y dice que tipo de dato es
+
+dropna()
+    cuanto tenemos datos faltante, lo mejor que se puede hacer es borrar la fila entera, lo que usualmente no genera problemas porque
+    trabajamos con muchos datos
+        import pandas as pd
+            new_df = df.dropna()
+
+            print(new_df.to_string())#dropna() crea un nuevo data frame
+
+fillna()
+    permite rellenar las celdas vacias, es una forma algo mejor que eliminar las filas completas
+        df = pd.read_csv('data.csv')
+
+        df.fillna(130, inplace = True)
+    tambien podemos hacerlo solo en columnas especificas
+        df = pd.read_csv('data.csv')
+
+        df.fillna({"Calories": 130}, inplace=True)
+
+to_datetime()
+    se usa para convertir strings o valores numericos en fechas y horas
+    puedo especificar en que formato de fecha lo quiero
+        result = pd.to_datetime(fechas, format='%d/%m/%Y')#fechas es la columna
+        print(result)
+    puedo decidir que hacer si hay un error:
+        result = pd.to_datetime(fechas, errors='raise')#envia un error de formato
+        result = pd.to_datetime(fechas, errors='coerce')#convierte los valores en NaT (dira que es un valor nulo o not a time)
+        result = pd.to_datetime(fechas, errors='ignore')#ignora :p
+    puedo establecer zona horaria UTC
+        fechas = ['2025-10-01 12:00', '2025-10-02 15:00']
+        result = pd.to_datetime(fechas, utc=True)
+    puedo establecer si quiero que el dia aparezca antes que el mes
+        result = pd.to_datetime(fechas, dayfirst=True)
+    puedo establecer si quiero el año antes que el mes
+        result = pd.to_datetime(fechas, yearfirst=True)
+
+dropna() 
+    elimina las filas que tengan valores tipo Nat
+        df.dropna(subset=['Date'], inplace = True)
+
+.loc
+    para reemplazar valores por otros, todo lo que tenemos que hacer es ubicarlo
+        df.loc[7, 'Duration'] = 45 
+    primero va la fila y luego la columna y por ultimo el valor por el que vamos a reemplazar
+    si queremos reemplazar grandes cantidades de datos, simplemente pondremos un limite para evitar datos erroneos
+        for x in df.index: #index busca la cantidad de filas que tiene el archivo
+            if df.loc[x, "Duration"] > 120:
+            df.loc[x, "Duration"] = 120
+
+.duplicated
+    revisa el dataframe fila por fila, buscando filas que esten repetidas
+        print(df.duplicated())
+    en las filas repetidas dira "true"
+
+drop_duplicates()
+    sirve para remover las filas que estan duplicadas 
+        df.drop_duplicates(inplace = True)
+
+corr()
+    es uno de los puntos mas importantes de pandas, calculas las relaciones entre las columnas 
+        1: correlación positiva perfecta
+        0.6: buena correlacion positiva
+        0: sin correlación lineal
+        -0.6: buena correlacion negativa
+        -1: correlación negativa perfecta
+    lo hace con correlación de Pearson :3
+
+plot()
+    pandas permite usar plot para crear diagramas y usando Pyplot, un submodulo de la libreria Matplotlib 
+
+    
