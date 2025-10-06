@@ -25,7 +25,7 @@ print(juegos_recientes[['titulo', 'año_de_publicacion']])
 
 juegos_por_anio = df['año_de_publicacion'].value_counts().sort_index()
 print("\n📆 Número de juegos publicados por año:")
-print(juegos_por_año)
+print(juegos_por_anio)
 
 
 promedio_metacritic_anual = df.groupby('año_de_publicacion')['metacritic'].mean()
@@ -35,4 +35,5 @@ print(promedio_metacritic_anual)
 top_juegos_caros = df.sort_values(by='precio', ascending=False).head(5)
 print("\n💸 Top 5 juegos más caros:")
 print(top_juegos_caros[['titulo', 'precio']])
+
 
