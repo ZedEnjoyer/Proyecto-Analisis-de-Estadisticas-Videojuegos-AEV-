@@ -166,6 +166,17 @@ corr()
     lo hace con correlación de Pearson :3
 
 plot()
-    pandas permite usar plot para crear diagramas y usando Pyplot, un submodulo de la libreria Matplotlib 
+    pandas permite usar plot para crear diagramas
+    para un grafico lineal:
+        import pandas as pd
+        import matplotlib.pyplot as plt
+
+        df = pd.read_csv('data.csv')
+        df.plot()
+        plt.show()#solo usamos esa otra libreria para mostrar el diagrama
+    para un grafico de puntos
+        df.plot(kind = 'scatter', x = 'Duration', y = 'Calories')
+    para hacer un historigrama
+        df["Duration"].plot(kind = 'hist')
 
     
