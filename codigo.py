@@ -4,34 +4,43 @@ import pandas as pd
 df = pd.read_csv('steam_games.csv')
 
 # Ver las primeras filas del dataset
-print("Primeras filas del dataset:")
+print("📄 Primeras filas del dataset:")
 print(df.head())
 
-# Estadísticas generales de las columnas numéricas
-print("\nEstadísticas generales:")
-print(df.describe())
+# Estadísticas generales (precio y metacritic)
+print("\n📊 Estadísticas generales:")
+print(df[['precio', 'metacritic']].describe())
 
-# Análisis del total de ventas por género
-print("\nVentas totales por género:")
-ventas_por_genero = df.groupby('Género')['Ventas (millones)'].sum()
-print(ventas_por_genero)
+# Juego con mejor puntuación Metacritic
+mejor_juego = df[df['metacritic'] == df['metacritic'].max()]
+print("\n🏆 Juego con mejor puntuación Metacritic:")
+print(mejor_juego[['titulo', 'metacritic']])
 
-# Juegos con mejor calificación
-print("\nJuegos con mejor calificación:")
-mejor_calificacion = df[df['Calificación'] == df['Calificación'].max()]
-print(mejor_calificacion[['Nombre', 'Calificación']])
+# Juego más caro
+juego_mas_caro = df[df['precio'] == df['precio'].max()]
+print("\n💸 Juego más caro:")
+print(juego_mas_caro[['titulo', 'precio']])
 
-# Juegos lanzados en el siglo XXI (desde el año 2000 en adelante)
-print("\nJuegos lanzados en el siglo XXI:")
-juegos_siglo_XXI = df[df['Año'] >= 2000]
-print(juegos_siglo_XXI[['Nombre', 'Año']])
+# Precio promedio
+precio_promedio = df['precio'].mean()
+print(f"\n💰 Precio promedio de los juegos: ${precio_promedio:.2f}")
 
-# Juego más vendido
-print("\nJuego más vendido:")
-juego_mas_vendido = df[df['Ventas (millones)'] == df['Ventas (millones)'].max()]
-print(juego_mas_vendido[['Nombre', 'Ventas (millones)']])
+# Juegos publicados después de 2015
+juegos_recientes = df[df['año_de_publicacion'] > 2015]
+print("\n🕹️ Juegos publicados después de 2015:")
+print(juegos_recientes[['titulo', 'año_de_publicacion']])
 
-# Juegos lanzados por año
-print("\nNúmero de juegos lanzados por año:")
-juegos_por_anio = df.groupby('Año').size()
+# Número de juegos por año
+juegos_por_anio = df['año_de_publicacion'].value_counts().sort_index()
+print("\n📆 Número de juegos publicados por año:")
 print(juegos_por_anio)
+
+# Promedio de Metacritic por año
+promedio_metacritic_anual = df.groupby('año_de_publicacion')['metacritic'].mean()
+print("\n📈 Promedio de Metacritic por año:")
+print(promedio_metacritic_anual)
+
+# Top 5 juegos más caros
+top_juegos_caros = df.sort_values(by='precio', ascending=False).head(5)
+print("\n💸 Top 5 juegos más caros:")
+print(top_juegos_caros[['titulo', 'precio']])
