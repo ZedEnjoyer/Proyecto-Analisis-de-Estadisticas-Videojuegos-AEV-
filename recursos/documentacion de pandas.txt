@@ -158,11 +158,12 @@ drop_duplicates()
 
 corr()
     es uno de los puntos mas importantes de pandas, calculas las relaciones entre las columnas 
-        1: correlación positiva perfecta
-        0.6: buena correlacion positiva
-        0: sin correlación lineal
-        -0.6: buena correlacion negativa
-        -1: correlación negativa perfecta
+        print(df.corr())
+    1: correlación positiva perfecta
+    0.6: buena correlacion positiva
+    0: sin correlación lineal
+    -0.6: buena correlacion negativa
+    -1: correlación negativa perfecta
     lo hace con correlación de Pearson :3
 
 plot()
@@ -178,5 +179,6 @@ plot()
         df.plot(kind = 'scatter', x = 'Duration', y = 'Calories')
     para hacer un historigrama
         df["Duration"].plot(kind = 'hist')
+
 
     
