@@ -1,6 +1,7 @@
 import pandas as pd
 
-df = pd.read_csv('steam_games.csv')
+df = pd.read_csv('steam_games.csv')
+
 
 print("\nEstadísticas generales:")
 print(df[['precio', 'metacritic']].describe())
@@ -33,8 +34,9 @@ top_juegos_caros = df.sort_values(by='precio', ascending=False).head(5)
 print("\nTop 5 juegos más caros:")
 print(top_juegos_caros[['titulo', 'precio']])
 
-print("\ncorrelacion entre las columnas numericas")
+print("\ncorrelacion entre año de publicacion, precio y nota de metacritic")
 print(df.select_dtypes(include='number').corr())
+
 
 
 
