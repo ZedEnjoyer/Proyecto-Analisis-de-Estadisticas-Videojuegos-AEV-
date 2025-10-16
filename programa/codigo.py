@@ -1,9 +1,6 @@
 import pandas as pd
 
-df = pd.read_csv('steam_games.csv')
-
-print("Primeras filas del dataset:")
-print(df.head())
+df = pd.read_csv('steam_games.csv')
 
 print("\nEstadísticas generales:")
 print(df[['precio', 'metacritic']].describe())
