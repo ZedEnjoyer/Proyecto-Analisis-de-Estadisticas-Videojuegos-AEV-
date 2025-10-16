@@ -4,9 +4,6 @@ import seaborn as sns
 
 df = pd.read_csv('steam_games.csv')
 
-print("Primeras filas del dataset:")
-print(df.head())
-
 print("\nEstadísticas básicas:")
 print(df[['precio', 'metacritic']].describe())
 
