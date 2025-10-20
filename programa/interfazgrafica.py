@@ -125,5 +125,3 @@ pie = tk.Label(
 pie.pack(side="bottom", pady=10)
 
 principal.mainloop()
-
-

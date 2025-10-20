@@ -5,7 +5,7 @@ import seaborn as sns
 import sys
 import os
 
-CSV_PATH = "steamgames.csv"
+CSV_PATH = 'steam_games.csv'
 
 # Intentar leer el CSV con manejo de errores
 if not os.path.exists(CSV_PATH):
