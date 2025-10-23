@@ -2,6 +2,7 @@ import tkinter as tk
 import os
 import pandas as pd
 import subprocess
+from tkinter import ttk
 
 principal = tk.Tk()
 principal.title("Análisis de datos de videojuegos")
@@ -10,10 +11,10 @@ principal.configure(background="#1E1E1E")
 
 color_fondo = "#1E1E1E"
 color_boton = "#3A3A3A"
-color_texto = "white"
 color_acento = "#00FF7F"
 fuente_titulo = ("Segoe UI", 18, "bold")
 fuente_normal = ("Segoe UI", 11)
+style = ttk.Style()
 
 etiqueta = tk.Label(
     principal,
@@ -24,9 +25,14 @@ etiqueta = tk.Label(
 )
 etiqueta.pack(pady=20)
 
-# --- Marco para botones principales ---
 frame_botones = tk.Frame(principal, background=color_fondo)
 frame_botones.pack(pady=10)
+
+def mostrar_datos():
+    frame_texto.pack(fill="both", expand=True, padx=20, pady=10)
+    texto_area.delete("1.0", tk.END)
+    df = pd.read_csv("steam_games.csv")
+    texto_area.insert(tk.END, df.head(50).to_string(index=False))
 
 def graficas():
     try:
@@ -34,7 +40,34 @@ def graficas():
     except Exception as e:
         texto_area.insert(tk.END, f"Error al ejecutar gráficas: {e}\n")
 
+def limpiar_texto():
+    texto_area.delete("1.0", tk.END)
+
+
 boton = tk.Button(
+    frame_botones,
+    text="visualizar datos en el CSV",
+    width=30,
+    height=2,
+    bg=color_boton,
+    fg=color_acento,
+    font=fuente_normal,
+    relief="raised",
+    activebackground="#00A86B",
+    activeforeground="white",
+    command=mostrar_datos,
+    cursor="hand2", 
+    background=[("active", "#005A9E")]
+)
+#esto no funciona xd aun
+style.boton(
+    "EstiloBoton.TButton",
+    background=[("active", "#005A9E")]  # color al pasar el mouse
+)
+boton.grid(row=0, column=0, padx=20, pady=10)
+
+
+boton2 = tk.Button(
     frame_botones,
     text="Análisis de datos (gráficas)",
     width=30,
@@ -45,35 +78,8 @@ boton = tk.Button(
     relief="raised",
     activebackground="#00A86B",
     activeforeground="white",
-    command=graficas
-)
-boton.grid(row=0, column=0, padx=20, pady=10)
-
-def cargar_datos():
-    frame_texto.pack(fill="both", expand=True, padx=20, pady=10)
-    texto_area.delete("1.0", tk.END)
-    try:
-        if not os.path.exists("steam_games.csv"):
-            texto_area.insert(tk.END, "No se encontró el archivo 'steam_games.csv'.\n")
-            return
-        df = pd.read_csv("steam_games.csv")
-        texto_area.insert(tk.END, df.head(50).to_string(index=False))
-        texto_area.insert(tk.END, f"\n\nMostrando 50 primeras filas de {len(df)} totales.")
-    except Exception as e:
-        texto_area.insert(tk.END, f"Error al cargar datos: {e}\n")
-
-boton2 = tk.Button(
-    frame_botones,
-    text="Cargar datos del CSV",
-    width=30,
-    height=2,
-    bg=color_boton,
-    fg=color_acento,
-    font=fuente_normal,
-    relief="raised",
-    activebackground="#00A86B",
-    activeforeground="white",
-    command=cargar_datos
+    command=graficas,
+    cursor="hand2"
 )
 boton2.grid(row=0, column=1, padx=20, pady=10)
 
@@ -97,8 +103,7 @@ scroll.config(command=texto_area.yview)
 
 frame_texto.pack_forget()
 
-def limpiar_texto():
-    texto_area.delete("1.0", tk.END)
+
 
 boton_limpiar = tk.Button(
     principal,
@@ -111,7 +116,8 @@ boton_limpiar = tk.Button(
     relief="raised",
     activebackground="#00A86B",
     activeforeground="white",
-    command=limpiar_texto
+    command=limpiar_texto,
+    cursor="hand2"
 )
 boton_limpiar.pack(pady=10)
 
@@ -125,3 +131,5 @@ pie = tk.Label(
 pie.pack(side="bottom", pady=10)
 
 principal.mainloop()
+
+
