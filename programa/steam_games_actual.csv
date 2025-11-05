@@ -1,5 +1,5 @@
 titulo,año_de_publicacion,precio,metacritic
-Metal Gear Solid V: The Phantom Pain,2015,19.99,93
+Metal Gear Solid V: The Phantom Pain,2015,19.99,93		
 The Witcher 3: Wild Hunt,2015,29.99,92
 Bloodborne,2015,19.99,92
 Undertale,2015,9.99,92
@@ -48,12 +48,10 @@ Resident Evil Village,2021,59.99,84
 Metroid Dread,2021,59.99,88
 Psychonauts 2,2021,59.99,87
 Forza Horizon 5,2021,59.99,92
-Elden Ring,2022,59.99,96
 God of War: Ragnarok,2022,69.99,94
 Stray,2022,29.99,83
 Neon White,2022,24.99,89
 Xenoblade Chronicles 3,2022,59.99,89
-Baldur's Gate 3,2023,59.99,96
 The Legend of Zelda: Tears of the Kingdom,2023,69.99,96
 Resident Evil 4 (Remake),2023,59.99,93
 Hi-Fi Rush,2023,29.99,89
@@ -68,3 +66,55 @@ Dragon Age: Dreadwolf,2025,69.99,87
 Marvel's Wolverine,2025,69.99,89
 Fable (Reboot),2025,59.99,86
 The Elder Scrolls VI,2025,69.99,90
+Grand Theft Auto V,2013,59.99,97 
+The Elder Scrolls V: Skyrim,2011,59.99,96 
+Portal 2,2011,19.99,95
+BioShock Infinite,2013,39.99,94
+Mass Effect 2,2010,19.99,96
+Persona 5 Royal,2019,59.99,95
+Marvel's Spider-Man,2018,59.99,87
+Cyberpunk 2077,2020,59.99,86
+Monster Hunter Rise,2021,59.99,88
+Marvel's Spider-Man 2,2023,69.99,88
+The Witcher 2: Assassins of Kings,2011,19.99,88
+Dishonored 2,2016,39.99,88
+Dark Souls,2011,19.99,89
+Fallout 3,2008,19.99,91
+Red Dead Redemption,2010,59.99,95
+Horizon Forbidden West,2022,69.99,88
+Marvel’s Spider-Man: Miles Morales,2020,49.99,85
+Cyberpunk 2077: Phantom Liberty,2023,29.99,85
+Gears 5,2019,59.99,80
+Elden Ring,2022,59.99,96
+Baldur's Gate 3,2023,59.99,96
+The Last of Us Part II,2024,59.99,90
+The Legend of Zelda: Ocarina of Time,1998,49.99,99  
+Tony Hawk’s Pro Skater 2,2000,49.99,98  
+SoulCalibur,1999,49.99,98  
+Grand Theft Auto IV,2008,59.99,98  
+Super Mario Galaxy,2007,59.99,97  
+Super Mario Galaxy 2,2010,59.99,97  
+Metroid Prime,2002,49.99,97  
+Half-Life 2,2004,49.99,96  
+BioShock,2007,59.99,96  
+Uncharted 2: Among Thieves,2009,59.99,96  
+Resident Evil 4,2005,39.99,96  
+Batman: Arkham City,2011,59.99,94  
+Okami,2006,39.99,93  
+Minecraft (Java Edition initial),2011,26.95,93  
+Gears of War,2006,59.99,94  
+Jet Set Radio,2000,39.99,94  
+Dwarf Fortress,2006,29.99,93  
+The Last of Us,2013,59.99,95  
+The Orange Box,2007,59.99,96  
+GoldenEye 007,1997,49.99,96  
+Halo: Combat Evolved,2001,59.99,97  
+Perfect Dark,2000,49.99,97  
+The Legend of Zelda: Twilight Princess,2006,59.99,96  
+Super Mario 3D World,2013,59.99,93  
+StarCraft II: Wings of Liberty,2010,59.99,93  
+Pac-Man Championship Edition DX,2010,14.99,93  
+LittleBigPlanet,2008,59.99,95  
+Devil May Cry,2001,49.99,94  
+Skies of Arcadia,2000,39.99,93  
+The Legend of Zelda: The Wind Waker,2002,59.99,96
