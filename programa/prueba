@@ -43,7 +43,6 @@ def graficas():
 def limpiar_texto():
     texto_area.delete("1.0", tk.END)
 
-
 boton = tk.Button(
     frame_botones,
     text="visualizar datos en el CSV",
@@ -76,107 +75,6 @@ boton2 = tk.Button(
 )
 boton2.grid(row=0, column=1, padx=20, pady=10)
 
-# --- Nueva función: evaluar si un juego puede ser exitoso ---
-def evaluar_juego():
-    # Crear una nueva ventana para ingresar datos
-    ventana = tk.Toplevel(principal)
-    ventana.title("Evaluar mi videojuego")
-    ventana.geometry("400x400")
-    ventana.configure(bg=color_fondo)
-
-    tk.Label(ventana, text="Ingresa las características de tu juego:",
-             bg=color_fondo, fg=color_acento, font=fuente_titulo).pack(pady=15)
-
-    # Campos de entrada
-    campos = ["Título", "Precio", "Año de publicación", "Metacritic estimado"]
-    entradas = {}
-
-    for campo in campos:
-        tk.Label(ventana, text=campo, bg=color_fondo, fg="white", font=fuente_normal).pack(pady=5)
-        entrada = tk.Entry(ventana, font=fuente_normal, bg="#2A2A2A", fg="white", insertbackground="white")
-        entrada.pack(pady=5)
-        entradas[campo] = entrada
-
-    # Función interna para procesar los datos ingresados
-    def procesar():
-        try:
-            df = pd.read_csv("steam_games.csv")
-
-            # Calcular promedios reales del dataset
-            promedio_metacritic = df["metacritic"].mean()
-            precio_promedio = df["precio"].mean()
-            precio_max = df["precio"].max()
-
-            # Leer datos del usuario
-            titulo = entradas["Título"].get()
-            precio = float(entradas["Precio"].get())
-            año = int(entradas["Año de publicación"].get())
-            metacritic_estimado = float(entradas["Metacritic estimado"].get())
-
-            # Criterio simple de éxito
-            exito = False
-            razones = []
-
-            if metacritic_estimado >= promedio_metacritic:
-                exito = True
-                razones.append("supera el promedio de puntuación")
-            else:
-                razones.append("tiene una puntuación menor al promedio")
-
-            if precio > precio_max * 0.8:
-                razones.append("el precio es muy alto comparado al mercado")
-                exito = False
-
-            # Mostrar resultado
-            texto_area.delete("1.0", tk.END)
-            texto_area.insert(tk.END, f"Evaluación del juego: {titulo}\n\n")
-            texto_area.insert(tk.END, f"Precio ingresado: ${precio:.2f}\n")
-            texto_area.insert(tk.END, f"Año: {año}\n")
-            texto_area.insert(tk.END, f"Puntuación estimada: {metacritic_estimado}\n\n")
-            texto_area.insert(tk.END, f"Promedio de Metacritic real: {promedio_metacritic:.2f}\n")
-            texto_area.insert(tk.END, f"Precio promedio del mercado: ${precio_promedio:.2f}\n\n")
-
-            if exito:
-                texto_area.insert(tk.END, "Tu juego tiene potencial de ser exitoso.\n")
-            else:
-                texto_area.insert(tk.END, "Tu juego podría tener dificultades para destacar.\n")
-
-            texto_area.insert(tk.END, "\nRazones consideradas:\n- " + "\n- ".join(razones))
-            ventana.destroy()
-
-        except Exception as e:
-            texto_area.insert(tk.END, f"Error al evaluar el juego: {e}\n")
-
-    # Botón para procesar
-    tk.Button(
-        ventana,
-        text="Evaluar juego",
-        bg=color_boton,
-        fg=color_acento,
-        font=fuente_normal,
-        command=procesar,
-        width=20,
-        height=2
-    ).pack(pady=20)
-
-# --- Botón para evaluar el juego ---
-boton3 = tk.Button(
-    frame_botones,
-    text="Evaluar mi videojuego",
-    width=30,
-    height=2,
-    bg=color_boton,
-    fg=color_acento,
-    font=fuente_normal,
-    relief="raised",
-    activebackground="#00A86B",
-    activeforeground="white",
-    command=evaluar_juego,
-    cursor="hand2"
-)
-boton3.grid(row=1, column=0, columnspan=2, pady=10)
-
-# --- Área de texto con scrollbar ---
 frame_texto = tk.Frame(principal, background=color_fondo, bd=2, relief="groove")
 
 scroll = tk.Scrollbar(frame_texto)
