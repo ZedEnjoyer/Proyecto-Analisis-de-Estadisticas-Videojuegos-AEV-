@@ -1,5 +1,5 @@
 titulo,año_de_publicacion,precio,metacritic,genero,ventas
-Metal Gear Solid V: The Phantom Pain,2015,19.99,93		
+Metal Gear Solid V: The Phantom Pain,2015,19.99,93,accion,179M	
 The Witcher 3: Wild Hunt,2015,29.99,92
 Bloodborne,2015,19.99,92
 Undertale,2015,9.99,92
@@ -118,4 +118,5 @@ LittleBigPlanet,2008,59.99,95
 Devil May Cry,2001,49.99,94  
 Skies of Arcadia,2000,39.99,93  
 The Legend of Zelda: The Wind Waker,2002,59.99,96
+
 
