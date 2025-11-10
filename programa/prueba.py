@@ -72,7 +72,6 @@ def limpiar_texto():
     texto_area.delete("1.0", tk.END)
 
 
-# --- NUEVA FUNCIÓN: Predicción de éxito del juego ---
 def predecir_exito():
     try:
         df = pd.read_csv("steam_games.csv")
@@ -81,18 +80,15 @@ def predecir_exito():
             messagebox.showerror("Error", "El CSV debe tener columnas: 'genero', 'precio', 'año_de_publicacion', 'ventas_millones'")
             return
 
-        # Codificar el género
         le = LabelEncoder()
         df['genero_cod'] = le.fit_transform(df['genero'])
 
-        # Variables independientes y dependiente
         X = df[['genero_cod', 'precio', 'año_de_publicacion']]
         y = df['ventas_millones']
 
         modelo = LinearRegression()
         modelo.fit(X, y)
 
-        # Ventana para ingresar los datos
         ventana_pred = tk.Toplevel(principal)
         ventana_pred.title("Predicción de éxito")
         ventana_pred.geometry("400x400")
@@ -111,6 +107,7 @@ def predecir_exito():
         anio_var = tk.IntVar()
         tk.Entry(ventana_pred, textvariable=anio_var).pack(pady=5)
 
+        # CORREGIDO: df está en el scope superior y siempre definido si no hubo error con el CSV!
         def calcular_prediccion():
             try:
                 genero_cod = le.transform([genero_var.get()])[0]
