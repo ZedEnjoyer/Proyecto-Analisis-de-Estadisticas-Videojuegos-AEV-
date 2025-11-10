@@ -119,9 +119,9 @@ def predecir_exito():
                 prediccion = modelo.predict(nuevo_dato)[0]
                 texto = f"Tu juego podría vender aproximadamente {prediccion:.2f} millones de copias."
                 if prediccion > df['ventas_millones'].mean():
-                    texto += "\n💡 ¡Es probable que sea un éxito!"
+                    texto += "\n¡Es probable que sea un éxito!"
                 else:
-                    texto += "\n⚠️ Podría tener un rendimiento moderado."
+                    texto += "\nPodría tener un rendimiento moderado."
                 messagebox.showinfo("Resultado de predicción", texto)
             except Exception as e:
                 messagebox.showerror("Error", f"No se pudo calcular: {e}")
