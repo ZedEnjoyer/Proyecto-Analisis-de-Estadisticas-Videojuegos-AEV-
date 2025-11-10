@@ -1,4 +1,4 @@
-titulo,año_de_publicacion,precio,metacritic,genero,ventas_millones
+titulo,año_de_publicacion,precio,metacritic,genero,copias_vendidas
 Metal Gear Solid V: The Phantom Pain,2015,19.99,93,accion,10	
 The Witcher 3: Wild Hunt,2015,29.99,92,mundo_abierto,60
 Bloodborne,2015,19.99,92,accion,10
@@ -72,6 +72,7 @@ Super Mario Galaxy 2,2010,59.99,97,aventura,7
 Metroid Prime,2002,49.99,97,accion,3
 BioShock,2007,59.99,96,accion,43
 Uncharted 2: Among Thieves,2009,59.99,96,aventura,26 
+
 
 
 
