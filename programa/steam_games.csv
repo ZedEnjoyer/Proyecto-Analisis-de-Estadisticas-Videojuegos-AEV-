@@ -1,5 +1,5 @@
-titulo,año_de_publicacion,precio,metacritic,genero,copias_vendidas
-Metal Gear Solid V: The Phantom Pain,2015,19.99,93,accion,10	
+titulo,año_de_publicacion,precio,metacritic,genero,ventas_millones
+Metal Gear Solid V: The Phantom Pain,2015,19.99,93,accion,10
 The Witcher 3: Wild Hunt,2015,29.99,92,mundo_abierto,60
 Bloodborne,2015,19.99,92,accion,10
 Undertale,2015,9.99,92,aventura,13
@@ -63,15 +63,15 @@ Fallout 3,2008,19.99,91,aventura,15
 Red Dead Redemption,2010,59.99,95,mundo_abierto,80
 Horizon Forbidden West,2022,69.99,88,mundo_abierto,30
 Elden Ring,2022,59.99,96,accion,15
-The Legend of Zelda: Ocarina of Time,1998,49.99,99,aventura,8 
+The Legend of Zelda: Ocarina of Time,1998,49.99,99,aventura,8
 Tony Hawk’s Pro Skater 2,2000,49.99,98,accion,2
-SoulCalibur,1999,49.99,98,estrategia,16 
-Grand Theft Auto IV,2008,59.99,98,mundo_abierto,25 
-Super Mario Galaxy,2007,59.99,97,aventura,13 
-Super Mario Galaxy 2,2010,59.99,97,aventura,7 
+SoulCalibur,1999,49.99,98,estrategia,16
+Grand Theft Auto IV,2008,59.99,98,mundo_abierto,25
+Super Mario Galaxy,2007,59.99,97,aventura,13
+Super Mario Galaxy 2,2010,59.99,97,aventura,7
 Metroid Prime,2002,49.99,97,accion,3
 BioShock,2007,59.99,96,accion,43
-Uncharted 2: Among Thieves,2009,59.99,96,aventura,26 
+Uncharted 2: Among Thieves,2009,59.99,96,aventura,26
 
 
 
