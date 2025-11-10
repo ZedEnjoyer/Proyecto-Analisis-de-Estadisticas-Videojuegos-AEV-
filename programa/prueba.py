@@ -1,145 +1,228 @@
 import tkinter as tk
-from tkinter import ttk, filedialog, messagebox
+import os
 import pandas as pd
+import subprocess
+from tkinter import ttk, messagebox
 import matplotlib.pyplot as plt
+import seaborn as sns
+from sklearn.linear_model import LinearRegression
 from sklearn.model_selection import train_test_split
-from sklearn.ensemble import RandomForestRegressor
 from sklearn.preprocessing import LabelEncoder
 
 # --- Ventana principal ---
 principal = tk.Tk()
 principal.title("Análisis de datos de videojuegos")
-principal.geometry("800x500")
+principal.geometry("900x600")
 principal.configure(background="#1E1E1E")
 
-# --- Cargar CSV ---
-def cargar_archivo():
-    ruta = filedialog.askopenfilename(
-        title="Seleccionar archivo CSV",
-        filetypes=[("Archivos CSV", "*.csv")]
-    )
-    if not ruta:
-        return
+color_fondo = "#1E1E1E"
+color_boton = "#3A3A3A"
+color_acento = "#00FF7F"
+fuente_titulo = ("Segoe UI", 18, "bold")
+fuente_normal = ("Segoe UI", 11)
 
-    try:
-        global df
-        df = pd.read_csv(ruta, encoding='utf-8', sep=',', on_bad_lines='skip')
-        messagebox.showinfo("Éxito", f"Archivo cargado correctamente: {ruta}")
-    except Exception as e:
-        messagebox.showerror("Error", f"No se pudo leer el archivo:\n{e}")
+style = ttk.Style()
 
-# --- Análisis de datos ---
-def analizar_datos():
+etiqueta = tk.Label(
+    principal,
+    text="¡Bienvenido! ¿Qué acción deseas realizar?",
+    font=fuente_titulo,
+    background=color_fondo,
+    foreground=color_acento
+)
+etiqueta.pack(pady=20)
+
+frame_botones = tk.Frame(principal, background=color_fondo)
+frame_botones.pack(pady=10)
+
+# --- Funciones principales ---
+
+def mostrar_datos():
+    frame_texto.pack(fill="both", expand=True, padx=20, pady=10)
+    texto_area.delete("1.0", tk.END)
+    df = pd.read_csv("steam_games.csv")
+    texto_area.insert(tk.END, df.head(50).to_string(index=False))
+
+def graficas():
     try:
-        if df is None or df.empty:
-            messagebox.showerror("Error", "Primero debes cargar un archivo CSV.")
+        df = pd.read_csv("steam_games.csv")
+
+        if 'genero' not in df.columns or 'ventas_millones' not in df.columns:
+            messagebox.showerror("Error", "El CSV debe tener columnas: 'genero' y 'ventas_millones'")
             return
 
-        print("\nEstadísticas generales:")
-        print(df.describe(include='all'))
+        plt.figure(figsize=(10,6))
+        sns.barplot(data=df, x='genero', y='ventas_millones', estimator='mean')
+        plt.title('Promedio de ventas por género')
+        plt.xticks(rotation=45)
+        plt.tight_layout()
+        plt.show()
 
-        messagebox.showinfo("Análisis completado", "Los datos se analizaron exitosamente. Revisa la consola para detalles.")
-    except Exception as e:
-        messagebox.showerror("Error", str(e))
-
-# --- Gráficas ---
-def mostrar_graficas():
-    try:
-        if df is None or df.empty:
-            messagebox.showerror("Error", "Primero debes cargar un archivo CSV.")
-            return
-
-        # Verificar columnas
-        columnas_necesarias = ['titulo', 'año_de_publicacion', 'genero', 'copias_vendidas']
-        for col in columnas_necesarias:
-            if col not in df.columns:
-                messagebox.showerror("Error", f"Falta la columna '{col}' en el CSV.")
-                return
-
-        # Agrupar por año y género
-        ventas_genero = df.groupby(['año_de_publicacion', 'genero'])['copias_vendidas'].sum().unstack()
-        ventas_genero.plot(kind='bar', figsize=(10, 6))
-        plt.title("Comparación de ventas por género y año")
-        plt.xlabel("Año de publicación")
-        plt.ylabel("Copias vendidas (en millones)")
-        plt.legend(title="Género")
+        plt.figure(figsize=(10,6))
+        sns.lineplot(data=df, x='año_de_publicacion', y='ventas_millones', hue='genero', marker='o')
+        plt.title('Comparación de ventas por año y género')
+        plt.xticks(rotation=45)
         plt.tight_layout()
         plt.show()
 
     except Exception as e:
-        messagebox.showerror("Error", str(e))
+        texto_area.insert(tk.END, f"Error al ejecutar gráficas: {e}\n")
 
-# --- Predicción ---
+def limpiar_texto():
+    texto_area.delete("1.0", tk.END)
+
+
+# --- NUEVA FUNCIÓN: Predicción de éxito del juego ---
 def predecir_exito():
     try:
-        if df is None or df.empty:
-            messagebox.showerror("Error", "Primero debes cargar un archivo CSV.")
+        df = pd.read_csv("steam_games.csv")
+
+        if 'genero' not in df.columns or 'precio' not in df.columns or 'año_de_publicacion' not in df.columns or 'ventas_millones' not in df.columns:
+            messagebox.showerror("Error", "El CSV debe tener columnas: 'genero', 'precio', 'año_de_publicacion', 'ventas_millones'")
             return
 
-        columnas_requeridas = ['año_de_publicacion', 'precio', 'genero', 'copias_vendidas']
-        for col in columnas_requeridas:
-            if col not in df.columns:
-                messagebox.showerror("Error", f"Falta la columna '{col}' en el CSV.")
-                return
+        # Codificar el género
+        le = LabelEncoder()
+        df['genero_cod'] = le.fit_transform(df['genero'])
 
-        # Preprocesar datos
-        data = df.dropna(subset=columnas_requeridas).copy()
-        label = LabelEncoder()
-        data['genero_cod'] = label.fit_transform(data['genero'])
+        # Variables independientes y dependiente
+        X = df[['genero_cod', 'precio', 'año_de_publicacion']]
+        y = df['ventas_millones']
 
-        X = data[['año_de_publicacion', 'precio', 'genero_cod']]
-        y = data['copias_vendidas']
+        modelo = LinearRegression()
+        modelo.fit(X, y)
 
-        X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
-        modelo = RandomForestRegressor(n_estimators=100, random_state=42)
-        modelo.fit(X_train, y_train)
-
-        # Solicitar datos al usuario
+        # Ventana para ingresar los datos
         ventana_pred = tk.Toplevel(principal)
         ventana_pred.title("Predicción de éxito")
         ventana_pred.geometry("400x400")
-        ventana_pred.configure(bg="#1E1E1E")
+        ventana_pred.configure(background=color_fondo)
 
-        tk.Label(ventana_pred, text="Año de publicación:", fg="white", bg="#1E1E1E").pack()
-        entry_año = tk.Entry(ventana_pred)
-        entry_año.pack()
+        tk.Label(ventana_pred, text="Selecciona el género:", bg=color_fondo, fg=color_acento).pack(pady=5)
+        genero_var = tk.StringVar()
+        genero_cb = ttk.Combobox(ventana_pred, textvariable=genero_var, values=list(le.classes_))
+        genero_cb.pack(pady=5)
 
-        tk.Label(ventana_pred, text="Precio ($):", fg="white", bg="#1E1E1E").pack()
-        entry_precio = tk.Entry(ventana_pred)
-        entry_precio.pack()
+        tk.Label(ventana_pred, text="Precio del juego ($):", bg=color_fondo, fg=color_acento).pack(pady=5)
+        precio_var = tk.DoubleVar()
+        tk.Entry(ventana_pred, textvariable=precio_var).pack(pady=5)
 
-        tk.Label(ventana_pred, text="Género:", fg="white", bg="#1E1E1E").pack()
-        combo_genero = ttk.Combobox(ventana_pred, values=list(label.classes_))
-        combo_genero.pack()
+        tk.Label(ventana_pred, text="Año de publicación:", bg=color_fondo, fg=color_acento).pack(pady=5)
+        anio_var = tk.IntVar()
+        tk.Entry(ventana_pred, textvariable=anio_var).pack(pady=5)
 
-        def realizar_prediccion():
+        def calcular_prediccion():
             try:
-                año = int(entry_año.get())
-                precio = float(entry_precio.get())
-                genero = combo_genero.get()
-
-                if genero not in label.classes_:
-                    messagebox.showerror("Error", "El género ingresado no es válido.")
-                    return
-
-                genero_cod = label.transform([genero])[0]
-                prediccion = modelo.predict([[año, precio, genero_cod]])[0]
-
-                messagebox.showinfo("Predicción completada",
-                                    f"Predicción de ventas estimadas: {prediccion:.2f} millones de copias")
+                genero_cod = le.transform([genero_var.get()])[0]
+                nuevo_dato = pd.DataFrame([[genero_cod, precio_var.get(), anio_var.get()]],
+                                          columns=['genero_cod', 'precio', 'año_de_publicacion'])
+                prediccion = modelo.predict(nuevo_dato)[0]
+                texto = f"Tu juego podría vender aproximadamente {prediccion:.2f} millones de copias."
+                if prediccion > df['ventas_millones'].mean():
+                    texto += "\n¡Es probable que sea un éxito!"
+                else:
+                    texto += "\nPodría tener un rendimiento moderado."
+                messagebox.showinfo("Resultado de predicción", texto)
             except Exception as e:
-                messagebox.showerror("Error", str(e))
+                messagebox.showerror("Error", f"No se pudo calcular: {e}")
 
-        tk.Button(ventana_pred, text="Predecir", command=realizar_prediccion, bg="#3A3A3A", fg="white").pack(pady=20)
+        tk.Button(ventana_pred, text="Predecir éxito", bg=color_boton, fg=color_acento,
+                  command=calcular_prediccion).pack(pady=20)
 
     except Exception as e:
         messagebox.showerror("Error", str(e))
 
-# --- Botones ---
-tk.Button(principal, text="Cargar archivo CSV", command=cargar_archivo, bg="#3A3A3A", fg="white", width=25).pack(pady=10)
-tk.Button(principal, text="Análisis de datos", command=analizar_datos, bg="#3A3A3A", fg="white", width=25).pack(pady=10)
-tk.Button(principal, text="Mostrar gráficas", command=mostrar_graficas, bg="#3A3A3A", fg="white", width=25).pack(pady=10)
-tk.Button(principal, text="Predicción de éxito", command=predecir_exito, bg="#3A3A3A", fg="white", width=25).pack(pady=10)
-tk.Button(principal, text="Salir", command=principal.destroy, bg="#7A0000", fg="white", width=25).pack(pady=20)
+
+# --- BOTONES ---
+boton = tk.Button(
+    frame_botones,
+    text="Visualizar datos en el CSV",
+    width=30,
+    height=2,
+    bg=color_boton,
+    fg=color_acento,
+    font=fuente_normal,
+    relief="raised",
+    activebackground="#00A86B",
+    activeforeground="white",
+    command=mostrar_datos,
+    cursor="hand2"
+)
+boton.grid(row=0, column=0, padx=20, pady=10)
+
+boton2 = tk.Button(
+    frame_botones,
+    text="Análisis de datos (gráficas)",
+    width=30,
+    height=2,
+    bg=color_boton,
+    fg=color_acento,
+    font=fuente_normal,
+    relief="raised",
+    activebackground="#00A86B",
+    activeforeground="white",
+    command=graficas,
+    cursor="hand2"
+)
+boton2.grid(row=0, column=1, padx=20, pady=10)
+
+boton_pred = tk.Button(
+    principal,
+    text="Predecir éxito de tu juego",
+    width=30,
+    height=2,
+    bg=color_boton,
+    fg=color_acento,
+    font=fuente_normal,
+    relief="raised",
+    activebackground="#00A86B",
+    activeforeground="white",
+    command=predecir_exito,
+    cursor="hand2"
+)
+boton_pred.pack(pady=10)
+
+frame_texto = tk.Frame(principal, background=color_fondo, bd=2, relief="groove")
+
+scroll = tk.Scrollbar(frame_texto)
+scroll.pack(side="right", fill="y")
+
+texto_area = tk.Text(
+    frame_texto,
+    wrap="none",
+    yscrollcommand=scroll.set,
+    bg="#111111",
+    fg="#7CFC00",
+    font=("Consolas", 10),
+    insertbackground=color_acento
+)
+texto_area.pack(fill="both", expand=True)
+scroll.config(command=texto_area.yview)
+frame_texto.pack_forget()
+
+boton_limpiar = tk.Button(
+    principal,
+    text="Limpiar pantalla",
+    width=25,
+    height=2,
+    bg=color_boton,
+    fg=color_acento,
+    font=fuente_normal,
+    relief="raised",
+    activebackground="#00A86B",
+    activeforeground="white",
+    command=limpiar_texto,
+    cursor="hand2"
+)
+boton_limpiar.pack(pady=10)
+
+pie = tk.Label(
+    principal,
+    text="Desarrollado por: Tu nombre aquí",
+    bg=color_fondo,
+    fg="#888888",
+    font=("Segoe UI", 9)
+)
+pie.pack(side="bottom", pady=10)
 
 principal.mainloop()
