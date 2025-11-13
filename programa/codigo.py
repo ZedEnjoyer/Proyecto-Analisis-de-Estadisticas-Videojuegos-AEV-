@@ -213,13 +213,4 @@ boton_limpiar = tk.Button(
 )
 boton_limpiar.pack(pady=10)
 
-pie = tk.Label(
-    principal,
-    text="Desarrollado por: Tu nombre aquí",
-    bg=color_fondo,
-    fg="#888888",
-    font=("Segoe UI", 9)
-)
-pie.pack(side="bottom", pady=10)
-
 principal.mainloop()
